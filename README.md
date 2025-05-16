@@ -1,64 +1,81 @@
 ## yes24 중고서점 ERD 설계 및 구현
 
-### 0. 실습 목표
-- 25.04.29 ~ 25.05.01
-- 자유 주제
-- 4인 1조
+<details>
+<summary>0. 실습 목표</summary>
+
+- 25.04.29 ~ 25.05.01  
+- 자유 주제  
+- 4인 1조  
 - ERD 설계와 JAVA 구현(ui 없이 console로 작동)
 
-### 1. 요구사항 분석
-- 주제 선정 : yes24 중고서점
-- 이유 : 짧은 시간 안에 진행해야하는 과제이기에 이미 있는 웹 애플리케이션의 UI를 하나의 기획서로 삼기로 함.
-- 담당 파트 : 상점 & 리뷰
-  - 판매자 상점
-    - 판매 중인 책, 판매자 정보, 리뷰, 별점 평균, 상점 공지사항, 배송 정보(배송가격, 무료 배송 정책)
-    - 판매 중인 책, 판매자 정보, 리뷰는 외부에서 가져올 것
-  - 리뷰
-    - 작성자 아이디, 제목, 내용, 평점, 등록일
+</details>
+
+---
+
+<details>
+<summary>1. 요구사항 분석</summary>
+
+- 주제 선정 : yes24 중고서점  
+- 이유 : 짧은 시간 안에 진행해야 하는 과제이기에 이미 있는 웹 애플리케이션의 UI를 하나의 기획서로 삼기로 함.  
+- 담당 파트 : 상점 & 리뷰  
+  - **판매자 상점**  
+    - 판매 중인 책, 판매자 정보, 리뷰, 별점 평균, 상점 공지사항, 배송 정보(배송가격, 무료 배송 정책)  
+    - 판매 중인 책, 판매자 정보, 리뷰는 외부에서 가져올 것  
+  - **리뷰**  
+    - 작성자 아이디, 제목, 내용, 평점, 등록일  
     - 작성자 아이디는 외부에서 가져올 것
-- Entity, Attribute 키워드 뽑아내기
-  	🔑 : PK, 📄 : 일반속성, 🔗 : FK <br>
-   
-    | Entity | Attribute | 담당자 |
-    |:-|:-|:-:|
-    | job | 🔑직업 아이디 <br>📄직업 이름 <br>🔗유저 아이디 | 선정 |
-    | seller | 🔑셀러 아이디 <br> 📄판매자 닉네임, 고객상담 전화번호, 발송 예정일, 배송 방법, <br>배송비 정책, 도서산간 배송비 정책, 발송지 주소, 반품지 주소 <br>🔗유저 아이디 | 선정 |
-    | address | 🔑주소 아이디 <br>📄시도, 시군구, 동, 우편번호, 상세주소 | 선정 |
-    | user | 🔑사용자 아이디 <br>📄이름, 아이디, 비밀번호, 이메일주소 | 하진 |
-    | shop | 🔑상점 아이디 <br>📄리뷰 평점, 상점 공지, 배송 정책 <br> 🔗셀러 아이디, 🔗중고책 아이디 | **다운** |
-    | review | 🔑리뷰 아이디 <br>📄리뷰 제목, 리뷰 내용, 리뷰 별점, 리뷰 작성 날짜<br> 🔗상점 아이디, 🔗사용자 아이디 | **다운** |
-    | book_origin | 🔑원본 책 아이디 <br>📄책 소개, 출판 날짜, 정가, 출판사, 저자<br> 🔗카테고리 아이디 | 지원 |
-    | book_used | 🔑중고 책 아이디 <br>📄상태, 판매가<br> 🔗원본 책 아이디, 🔗재고 아이디, 🔗상점 아이디 | 지원 |
-    | category | 🔑1차 카테고리 아이디 <br>📄1차 카테고리 | 지원 |
-    | inventory | 🔑재고 아이디 <br>📄잔여 도서 권수, 거래량 | 지원 |
 
+**🔑 Entity, Attribute 키워드 뽑아내기**  
+
+| Entity | Attribute | 담당자 |
+|:-|:-|:-:|
+| job | 🔑직업 아이디 <br>📄직업 이름 <br>🔗유저 아이디 | 선정 |
+| seller | 🔑셀러 아이디 <br> 📄판매자 닉네임, 고객상담 전화번호, 발송 예정일, 배송 방법, <br>배송비 정책, 도서산간 배송비 정책, 발송지 주소, 반품지 주소 <br>🔗유저 아이디 | 선정 |
+| address | 🔑주소 아이디 <br>📄시도, 시군구, 동, 우편번호, 상세주소 | 선정 |
+| user | 🔑사용자 아이디 <br>📄이름, 아이디, 비밀번호, 이메일주소 | 하진 |
+| shop | 🔑상점 아이디 <br>📄리뷰 평점, 상점 공지, 배송 정책 <br> 🔗셀러 아이디, 🔗중고책 아이디 | **다운** |
+| review | 🔑리뷰 아이디 <br>📄리뷰 제목, 리뷰 내용, 리뷰 별점, 리뷰 작성 날짜<br> 🔗상점 아이디, 🔗사용자 아이디 | **다운** |
+| book_origin | 🔑원본 책 아이디 <br>📄책 소개, 출판 날짜, 정가, 출판사, 저자<br> 🔗카테고리 아이디 | 지원 |
+| book_used | 🔑중고 책 아이디 <br>📄상태, 판매가<br> 🔗원본 책 아이디, 🔗재고 아이디, 🔗상점 아이디 | 지원 |
+| category | 🔑1차 카테고리 아이디 <br>📄1차 카테고리 | 지원 |
+| inventory | 🔑재고 아이디 <br>📄잔여 도서 권수, 거래량 | 지원 |
+
+</details>
+
+---
+
+<details>
+<summary>2. ERD 설계</summary>
+
+**📌 관계 도출 요약**
+
+| 관계 | 유형 | 설명 | 종속 관계 |
+|------|------|------|-----------|
+| User ↔ Seller | 1:1 | 유저 1명은 하나의 셀러 | Seller는 User에 종속 |
+| User ↔ Job | 1:N | 유저는 하나의 직업 | Job은 User에 종속 |
+| User ↔ Address | 1:1 | 유저는 주소 1개 | Address는 User에 종속 |
+| User ↔ BookUsed | N:M | 유저는 여러 중고책 구매 가능 | 매핑 테이블로 관리 |
+| Shop ↔ BookUsed | 1:N | 상점 하나가 여러 책 보유 | BookUsed는 Shop에 종속 |
+| Review ↔ User | 1:N | 유저는 여러 리뷰 작성 | Review는 User에 종속 |
+| Shop ↔ Review | 1:N | 상점은 여러 리뷰 보유 | Review는 Shop에 종속 |
+| BookOrigin ↔ 출판사, 저자, 카테고리 | N:1 | 각 책은 하나의 출판사/저자/카테고리 | BookOrigin이 종속 |
+| BookOrigin ↔ BookUsed | 1:N | 원본책 → 중고책 | BookUsed가 종속 |
+| Inventory ↔ BookUsed | 1:N | 재고 → 중고책 | BookUsed가 종속 |
+
+**🧩 ERD 이미지**
+- 1차 ERD  
+  ![1차 ERD](https://github.com/user-attachments/assets/a6001929-9b85-4845-80b0-a86cf8ab1b41)
   
-### 2. ERD 설계
-- 관계 도출
+- 2차 ERD  
+  ![2차 ERD](https://github.com/user-attachments/assets/ea282d83-48dd-4982-bedb-2c3f86cf7a57)
 
-  | 관계                    | 유형   | 설명                                             | 종속 관계(정리)                                        |
-  | --------------------- | ---- | ---------------------------------------------- | ------------------------------------------------ |
-  | User ↔ Seller         | 1:1  | 한 User가 한 Seller<br> 한 Seller가 한 User             | Seller는 User에 종속 <br>(Seller는 User 없으면 존재 불가)        |
-  | User ↔ Job            | 1\:N | 한 User는 여러 Job 중 하나 가짐<br> 한 Job에 여러 User         | Job은 User에 종속 <br>(Job이 User 없으면 의미 없음)              |
-  | User ↔ Address        | 1:1  | 한 User가 한 Address를 반드시 가짐                      | Address는 User에 종속 <br>(Address는 User 없으면 존재 불가)      |
-  | User ↔ BookUsed       | N\:M | 한 User가 여러 중고책을 가짐<br> 중고책도 여러 User에 종속           | 독립적 관계 <br>(매핑 테이블에서 관리, 상호 종속 아님)                   |
-  | Shop ↔ BookUsed       | 1\:N | 하나의 Shop에 여러 BookUsed 속함<br> BookUsed는 한 Shop에 속함 | BookUsed는 Shop에 종속 <br>(BookUsed는 Shop 없으면 의미 없음)    |
-  | Review ↔ User         | 1\:N | 하나의 User에 여러 Review<br> Review는 반드시 User를 가짐      | Review는 User에 종속 <br>(Review는 User 없으면 존재 불가)        |
-  | Shop ↔ Review         | 1\:N | 하나의 Shop에 여러 Review<br> Review는 반드시 Shop을 가짐      | Review는 Shop에 종속 <br>(Review는 Shop 없으면 존재 불가)        |
-  | BookOrigin ↔ 출판사      | N:1  | 여러 원본 책이 한 출판사에 속함                             | BookOrigin은 출판사에 종속 <br>(책은 출판사 없이 의미 없음)            |
-  | BookOrigin ↔ 저자       | N:1  | 여러 원본 책이 한 저자에 속함 <br>(저자가 여러 명일 경우 N\:M 가능성 있음)   | BookOrigin은 저자에 종속 <br>(책은 저자 없으면 의미 없음)             |
-  | BookOrigin ↔ 카테고리1    | N:1  | 각 원본 책은 1차 카테고리에 속함                            | BookOrigin은 카테고리에 종속 <br>(책은 카테고리 없이 의미 없음)          |
-  | 카테고리1 ↔ 카테고리2         | 1\:N | 1차 카테고리는 여러 2차 카테고리를 가짐                        | 2차 카테고리는 1차 카테고리에 종속 <br>(2차는 1차 없이 의미 없음) |
-  | BookOrigin ↔ BookUsed | 1\:N | 원본 책 한 권에서 여러 중고 책 파생 가능                       | BookUsed는 BookOrigin에 종속 <br>(중고책은 원본책 없이 의미 없음)     |
-  | Inventory ↔ BookUsed  | 1\:N | 한 재고 항목이 여러 중고 책 재고를 관리                        | BookUsed는 Inventory에 종속 <br>(중고책은 재고 없이 의미 없음)       |
+</details>
 
-- 1차 ERD (너무 복잡하고 양이 많음)
-  ![Image](https://github.com/user-attachments/assets/a6001929-9b85-4845-80b0-a86cf8ab1b41)
+---
 
-- 2차 ERD (시간 관계 상 축소하여 진행)
-  ![Image](https://github.com/user-attachments/assets/ea282d83-48dd-4982-bedb-2c3f86cf7a57)
 
-### 3. 서비스 로직 구현
+<details>
+<summary>3. 서비스 로직 구현</summary>
 
 **1. 회원 가입 (선정)**
   - 회원 가입 로직의 순서는 다음과 같다.
@@ -124,10 +141,25 @@
       - 상점에 작성된 리뷰가 없을 경우 오류 메세지를  출력한다.<br>
         `"해당 상점에 등록된 리뷰가 없습니다.”`<br>
 
-### 4. 구현 결과
+</details>
+
+---
 
 
-### 5. 회고
+<details>
+<summary>4. 구현 결과</summary>
+
+
+
+</details>
+
+---
+
+
+
+<details>
+<summary>5. 회고</summary>
+
 <br>
 ERD도, JAVA도 모두 처음 공부해서 어려운 점이 많았지만 해당 주제를 통해 로직과 구현 방법을 익힐 수 있었다.<br>
 가장 어려웠던 부분은 ERD 설계 과정에서 관계를 정리하는 부분! 특히 shop과 old book의 관계를 정의할 때에 “old book안에 shop이 없을 수 있음”에 대해 많이 헷갈렸는데 해당 부분을 다른 팀원들도 고민하고 있어서 같이 이야기를 나눠 해결할 수 있었다. <br>
